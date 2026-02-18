@@ -99,3 +99,7 @@ Always use `DateTime.UtcNow`, never `DateTime.Now`. PostgreSQL requires UTC time
 - OpenAPI spec: `/openapi/v1.json`
 - Health checks: `/health` and `/alive`
 - Hello endpoint: `/hello`
+
+## Reference Files
+
+- `Wolverine.md` - Comprehensive Wolverine patterns and best practices (sagas, handlers, domain events, error policies, EF Core integration, HTTP endpoints, scheduling)

@@ -4,11 +4,21 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Project Overview
 
-Wolverine Template is a .NET 10.0 starter template using:
+Wolverine Template is a full-stack starter template using:
+
+**Backend (.NET 10.0)**
 - **Wolverine** - HTTP endpoints, messaging, command handling, and transactional outbox
 - **EF Core + PostgreSQL** - Database ORM and persistence
 - **Supabase** - JWT authentication with JWKS key rotation
 - **Serilog + Seq** - Structured logging
+
+**Frontend (Angular)**
+- **Angular** with standalone components and SSR
+- **Tailwind CSS** for all styling
+- **TypeScript** with strict mode
+- **Vitest** for unit testing
+
+**Infrastructure**
 - **docker-compose** - Local dev infrastructure (PostgreSQL, pgAdmin, Seq)
 
 ## Common Development Commands
@@ -22,12 +32,22 @@ docker compose up -d
 # Run the API
 cd src/Api
 dotnet run
+
+# Run the frontend (separate terminal)
+cd frontend
+npm start
+# Navigate to http://localhost:4200/
 ```
 
 ### Testing
 
 ```bash
+# Backend tests
 dotnet test
+
+# Frontend tests
+cd frontend
+npm test
 ```
 
 ### Database Migrations
@@ -44,20 +64,23 @@ dotnet ef database update
 
 ```
 wolverine-template/
-├── src/Api/                          # Main API project
+├── src/Api/                          # .NET API project
 │   ├── Auth/                         # Supabase claims transformation
-│   ├── Data/
-│   │   ├── AppDbContext.cs           # EF Core DbContext
-│   │   └── DesignTimeDbContextFactory.cs
-│   ├── Domain/
-│   │   ├── BaseEntity.cs            # Base class with domain events
-│   │   ├── Entities/                # DDD entities
-│   │   └── Events/                  # Domain events
-│   ├── Extensions/                  # ClaimsPrincipal helpers
-│   ├── Features/                    # Feature-based organization
-│   ├── Middleware/                  # Auto user sync
-│   └── Services/                   # JWKS, email abstractions
-└── tests/Api.Tests/                # Unit tests
+│   ├── Data/                         # EF Core DbContext + migrations
+│   ├── Domain/                       # DDD entities + events
+│   ├── Extensions/                   # Service + ClaimsPrincipal helpers
+│   ├── Features/                     # Feature-based endpoints
+│   ├── Middleware/                    # Auto user sync
+│   └── Services/                     # JWKS, email abstractions
+├── frontend/                         # Angular frontend with SSR
+│   ├── src/
+│   │   ├── app/                      # Components, services, routes
+│   │   ├── environments/             # API URL configuration
+│   │   ├── server.ts                 # Express SSR server
+│   │   └── styles.scss               # Tailwind imports
+│   ├── angular.json                  # Angular CLI configuration
+│   └── Angular.md                    # Angular best practices guide
+└── tests/Api.Tests/                  # Backend unit tests
 ```
 
 ### Wolverine Patterns
@@ -100,6 +123,26 @@ Always use `DateTime.UtcNow`, never `DateTime.Now`. PostgreSQL requires UTC time
 - Health checks: `/health` and `/alive`
 - Hello endpoint: `/hello`
 
+## Frontend
+
+### Environment Configuration
+
+API URLs are configured in `frontend/src/environments/`:
+- `environment.ts` — Development: `http://localhost:5000`
+- `environment.production.ts` — Production: set your API URL
+
+### Angular Conventions
+
+- **Standalone components** with `OnPush` change detection
+- **Signals** for all state — no lifecycle hooks, no manual subscriptions
+- **Tailwind CSS only** — no custom CSS, `styles: []` on all components
+- **Modern control flow** — `@if`, `@for`, `@switch`, `@let`
+- **`input()`, `output()`, `model()`** functions, not decorators
+- **Lazy-loaded routes** for code splitting
+
+See `frontend/Angular.md` for the complete best practices guide.
+
 ## Reference Files
 
 - `Wolverine.md` - Comprehensive Wolverine patterns and best practices (sagas, handlers, domain events, error policies, EF Core integration, HTTP endpoints, scheduling)
+- `frontend/Angular.md` - Angular best practices (signals, components, SSR, Tailwind, testing)

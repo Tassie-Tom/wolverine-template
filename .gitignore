@@ -21,6 +21,11 @@ packages/
 ## Environment
 .env
 
+## Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
 ## Misc
 *.log
 *.tmp

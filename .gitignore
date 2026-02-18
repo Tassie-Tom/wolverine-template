@@ -1,0 +1,32 @@
+## .NET
+bin/
+obj/
+publish/
+
+## IDE
+.vs/
+.vscode/
+.claude/settings.local.json
+*.user
+*.suo
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+
+## NuGet
+*.nupkg
+packages/
+
+## Environment
+.env
+
+## Misc
+*.log
+*.tmp
+nul
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+!appsettings.Staging.json
+!appsettings.Production.json
